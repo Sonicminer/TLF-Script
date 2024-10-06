@@ -1,0 +1,145 @@
+local plr = game.Players.LocalPlayer
+local PlayerFolder = game.ReplicatedStorage.Stats
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+   Name = "TLF",
+   LoadingTitle = "TLF",
+   LoadingSubtitle = "by sonic",
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = nil, -- Create a custom folder for your hub/game
+      FileName = "Big Hub"
+   },
+   Discord = {
+      Enabled = false,
+      Invite = "noinvitelink", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ABCD would be ABCD
+      RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+   },
+   KeySystem = false, -- Set this to true to use our key system
+   KeySettings = {
+      Title = "Untitled",
+      Subtitle = "Key System",
+      Note = "No method of obtaining the key is provided",
+      FileName = "Key", -- It is recommended to use something unique as other scripts using Rayfield may overwrite your key file
+      SaveKey = true, -- The user's key will be saved, but if you change the key, they will be unable to use your script
+      GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
+      Key = {"Hello"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
+   }
+})
+
+local MainTab = Window:CreateTab("🏠 Home", nil) -- Title, Image
+
+local Toggle = MainTab:CreateToggle({
+   Name = "Auto Clicker",
+   CurrentValue = false,
+   Flag = "autoclick", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+        getgenv().autoClick = (Value);
+   end,
+})
+
+local RNGTab = Window:CreateTab("RNG Realm", nil) -- Title, Image
+
+local Button = RNGTab:CreateButton({
+   Name = "Teleport to RNG",
+   Callback = function()
+       game:GetService("ReplicatedStorage")["SSG Framework"].Shared.Network.world:InvokeServer({["Action"] = "Minigame",["Minigame"] = "Rolling Realm"})
+   end,
+})
+
+local ToggleBuy = RNGTab:CreateToggle({
+   Name = "Auto Roll",
+   CurrentValue = false,
+   Flag = "autoroll", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+        getgenv().autoRoll = (Value);
+   end,
+})
+
+local Toggle = RNGTab:CreateToggle({
+   Name = "Auto Buy Merchant",
+   CurrentValue = false,
+   Flag = "autobuy", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+        getgenv().autoBuy = (Value);
+   end,
+})
+
+local AutoSection = RNGTab:CreateSection("Auto Upgrade")
+
+local ToggleGem = RNGTab:CreateToggle({
+   Name = "Auto Buy More Gemstones Upgrade",
+   CurrentValue = false,
+   Flag = "autogemstones", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+       getgenv().autoUpgMoreGemstones = (Value);
+   end,
+})
+
+local ToggleLuck = RNGTab:CreateToggle({
+   Name = "Auto Buy Lucky Rolls Upgrade",
+   CurrentValue = false,
+   Flag = "autoluckyrolls", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+       getgenv().autoUpgLuckRolls = (Value);
+   end,
+})
+
+local ToggleSpeed = RNGTab:CreateToggle({
+   Name = "Auto Buy Speedy Rolls Upgrade",
+   CurrentValue = false,
+   Flag = "autospeedyrolls", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+       getgenv().autoUpgSpeedRolls = (Value);
+   end,
+})
+
+local ToggleUnique = RNGTab:CreateToggle({
+   Name = "Auto Buy Unique Rolls Upgrade",
+   CurrentValue = false,
+   Flag = "autouniquerolls", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+       getgenv().autoUpgUniqueRolls = (Value);
+   end,
+})
+
+while wait() do
+    if getgenv().autoClick == true then
+        game:GetService("ReplicatedStorage")["SSG Framework"].Shared.Network.tap:FireServer()
+    end
+    if getgenv().autoRoll == true then
+        game:GetService("ReplicatedStorage")["SSG Framework"].Shared.Network.roll:InvokeServer()
+        wait(1)
+    end
+    if getgenv().autoUpgMoreGemstones == true then
+        game:GetService("ReplicatedStorage")["SSG Framework"].Shared.Network.upgrades:InvokeServer("Gemstones","More Gemstones")
+        wait(5)
+    end
+    if getgenv().autoUpgLuckRolls == true then
+        game:GetService("ReplicatedStorage")["SSG Framework"].Shared.Network.upgrades:InvokeServer("Gemstones","Lucky Rolls")
+        wait(5)
+    end
+    if getgenv().autoUpgSpeedRolls == true then
+        game:GetService("ReplicatedStorage")["SSG Framework"].Shared.Network.upgrades:InvokeServer("Gemstones","Speedy Rolls")
+        wait(5)
+    end
+    if getgenv().autoUpgUniqueRolls == true then
+        game:GetService("ReplicatedStorage")["SSG Framework"].Shared.Network.upgrades:InvokeServer("Gemstones","Unique Rolls")
+        wait(5)
+    end
+    if getgenv().autoBuy == true then
+        game:GetService("ReplicatedStorage")["SSG Framework"].Shared.Network["buy dice merchant"]:InvokeServer(0)
+        wait()
+        game:GetService("ReplicatedStorage")["SSG Framework"].Shared.Network["buy dice merchant"]:InvokeServer(1)
+        wait()
+        game:GetService("ReplicatedStorage")["SSG Framework"].Shared.Network["buy dice merchant"]:InvokeServer(2)
+        wait()
+        game:GetService("ReplicatedStorage")["SSG Framework"].Shared.Network["buy dice merchant"]:InvokeServer(3)
+        wait()
+        game:GetService("ReplicatedStorage")["SSG Framework"].Shared.Network["buy dice merchant"]:InvokeServer(4)
+        wait()
+        game:GetService("ReplicatedStorage")["SSG Framework"].Shared.Network["buy dice merchant"]:InvokeServer(5)
+        wait(5)
+    end
+end
