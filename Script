@@ -1,6 +1,6 @@
 local plr = game.Players.LocalPlayer
 local PlayerFolder = game.ReplicatedStorage.Stats
-local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+local Rayfield = loadstring(game:HttpGet('https://[Log in to view URL]'))()
 
 local Window = Rayfield:CreateWindow({
    Name = "TLF",
@@ -39,7 +39,7 @@ local Toggle = MainTab:CreateToggle({
    end,
 })
 
-local RNGTab = Window:CreateTab("RNG Realm", nil) -- Title, Image
+local RNGTab = Window:CreateTab("🎲 RNG Realm", nil) -- Title, Image
 
 local Button = RNGTab:CreateButton({
    Name = "Teleport to RNG",
@@ -63,6 +63,15 @@ local Toggle = RNGTab:CreateToggle({
    Flag = "autobuy", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
    Callback = function(Value)
         getgenv().autoBuy = (Value);
+   end,
+})
+
+local ToggleRNGLootbox = RNGTab:CreateToggle({
+   Name = "Auto Open Dice Lootbox",
+   CurrentValue = false,
+   Flag = "autoOpenRNGLootbox", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+        getgenv().autoOpenRNGLootbox = (Value);
    end,
 })
 
@@ -111,6 +120,10 @@ while wait() do
     if getgenv().autoRoll == true then
         game:GetService("ReplicatedStorage")["SSG Framework"].Shared.Network.roll:InvokeServer()
         wait(1)
+    end
+    if getgenv().autoOpenRNGLootbox == true then
+        game:GetService("ReplicatedStorage")["SSG Framework"].Shared.Network["use item"]:InvokeServer("Dice Box",{["Amount"] = 1})
+        wait()
     end
     if getgenv().autoUpgMoreGemstones == true then
         game:GetService("ReplicatedStorage")["SSG Framework"].Shared.Network.upgrades:InvokeServer("Gemstones","More Gemstones")
